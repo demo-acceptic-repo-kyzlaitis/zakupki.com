@@ -1,0 +1,2 @@
+*/10 * * * * root /usr/bin/indexer -c /etc/sphinxsearch/sphinxy.conf --all --rotate >> /dev/null 2&>1
+

@@ -1,0 +1,2 @@
+For test running:
+vendor/phpunit/phpunit/phpunit app/Services/ValidationService/Tests/Tender/ValidationServiceTenderTest.php

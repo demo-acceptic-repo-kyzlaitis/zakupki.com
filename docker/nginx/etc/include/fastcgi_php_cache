@@ -1,0 +1,40 @@
+index index.php;
+
+location @rewrite {
+        rewrite ^(.*)$ /index.php?_url=$1;
+}
+
+set $no_cache 1;
+# POST requests and URLs with a query string should always go to PHP
+if ($request_method = POST) {
+        set $no_cache 1;
+}
+
+if ($query_string != "") {
+        set $no_cache 1;
+}
+
+location @fcgi_cache {
+    #access_log on;
+    include fastcgi_params;
+    fastcgi_split_path_info       ^(.+\.php)(.*)$;
+    fastcgi_param PATH_INFO       $fastcgi_path_info;
+    fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+    fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+    fastcgi_param SCRIPT_NAME  /index.php;
+
+    fastcgi_read_timeout 1m;
+
+    fastcgi_pass php-upstream7;
+    fastcgi_cache fastcgicache;
+    fastcgi_cache_valid 404 1m;
+    fastcgi_cache_valid 200 12h; # Only cache 200 responses, cache for 12 hours
+    fastcgi_cache_methods GET HEAD; # Only GET and HEAD methods apply
+    #add_header X-Fastcgi-Cache $upstream_cache_status;
+    fastcgi_cache_bypass $no_cache;  # Don't pull from cache based on $no_cache
+    fastcgi_no_cache $no_cache; # Don't save to cache based on $no_cache
+    fastcgi_ignore_headers Cache-Control Expires;
+    fastcgi_hide_header "Set-Cookie";
+    fastcgi_cache_use_stale updating error timeout invalid_header http_500 http_503 http_404;
+}
+add_header X-Fastcgi-Cache $upstream_cache_status;

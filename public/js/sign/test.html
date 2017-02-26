@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test CSP</title>
+		<meta charset="utf-8" />
+
+		<!-- add CDN scripts -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.9.4/spin.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.9.4/ladda.min.js"></script>
+
+		<!-- add IIT library -->
+		<script type="text/javascript" src="/js/sign/euscpt.js"></script>
+		<script type="text/javascript" src="/js/sign/euscpm.js"></script>
+		<script type="text/javascript" src="/js/sign/euscp.js" async></script>
+
+		<!-- add public script from openprocurement-crypto for prepareObject() -->
+		<script type="text/javascript" src="https://cdn.rawgit.com/openprocurement-crypto/common/v.0.0.23/js/index.js"></script>
+
+		<script type="text/javascript" src="/js/sign/promise.min.js"></script>
+		<script type="text/javascript" src="/js/sign/jsondiffpatch.min.js"></script>
+		<script type="text/javascript" src="/js/sign/signer.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ladda-bootstrap/0.9.4/ladda-themeless.min.css" />
+
+		<style type="text/css">
+			body {
+			    padding-top: 70px;
+			    -webkit-font-smoothing: subpixel-antialiased;
+			    -webkit-overflow-scrolling: touch;
+			}
+		</style>
+
+	</head>
+	<body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a class="page-nav" href="#sign" data-toggle="tab">Sign</a></li>
+                        <li><a class="page-nav" href="#verify" data-toggle="tab">Verify</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container tab-content" role="main">
+            <noscript>
+                <div class="alert alert-danger" role="alert">
+                    <b>JavaScript is required to use this site!</b>
+                    Please enable JavaScript and try again.
+                </div>
+            </noscript>
+
+            <!-- sign form -->
+
+            <div id="sign" class="tab-pane fade">
+                <legend>Sign</legend>
+
+                <form id="sign-form" class="form-horizontal">
+                	<div class="form-group">
+                		<label for="SignID" class="control-label col-lg-2">Document ID</label>
+                		<div class="col-lg-10">
+                			<input type="text" class="form-control" name="SignID" id="SignID" />
+                		</div>
+                	</div>
+
+                	<div class="form-group">
+                		<label for="SignCertFile" class="control-label col-lg-2">Certificate File</label>
+                		<div class="col-lg-10">
+                			<input type="file" class="form-control" name="SignCertFile" id="SignCertFile" />
+                		</div>
+                	</div>
+
+                	<div class="form-group">
+                		<label for="SignKeyFile" class="control-label col-lg-2">Private Key File</label>
+                		<div class="col-lg-10">
+                			<input type="file" class="form-control" name="SignKeyFile" id="SignKeyFile" />
+                		</div>
+                	</div>
+
+                	<div class="form-group">
+                		<label for="SignKeyPassword" class="control-label col-lg-2">Private Key Password</label>
+                		<div class="col-lg-10">
+                			<input type="text" class="form-control" name="SignKeyPassword" id="SignKeyPassword" />
+                		</div>
+                	</div>
+
+                	<div class="form-group">
+                		<div class="col-lg-offset-2 col-lg-10">
+							<button class="btn btn-primary ladda-button" data-style="expand-right">Sign</button>
+						</div>
+					</div>
+				</form>
+            </div>
+
+            <!-- verify form -->
+            
+            <div id="verify" class="tab-pane fade">
+                <legend>Verify</legend>
+
+                <form id="verify-form" class="form-horizontal">
+                	<div class="form-group">
+                		<label for="VerifyID" class="control-label col-lg-2">Document ID</label>
+                		<div class="col-lg-10">
+                			<input type="text" class="form-control" name="VerifyID" id="VerifyID" />
+                		</div>
+                	</div>
+
+                	<div class="form-group">
+                		<div class="col-lg-offset-2 col-lg-10">
+							<button class="btn btn-primary ladda-button" data-style="expand-right">
+								<span class="ladda-label">Verify</span>
+							</button>
+						</div>
+					</div>
+				</form>
+            </div>
+        </div>
+
+		<script type="text/javascript">
+			
+		$("#sign-form").submit(DoSign);
+		$("#verify-form").submit(DoVerify);
+
+		function DoSign(e) {
+			e.preventDefault();
+
+			var idField = this["SignID"];
+			var certField = this["SignCertFile"];
+			var keyField = this["SignKeyFile"];
+			var passwordField = this["SignKeyPassword"];
+
+			if (!idField.value) {
+				alert("No ID provided");
+				return;
+			}
+
+			if (!certField.value) {
+				alert("No certificate selected");
+				return;
+			}
+
+			if (!keyField.value) {
+				alert("No private key selected");
+				return;
+			}
+
+			if (!passwordField.value) {
+				alert("Enter password");
+				return;
+			}
+
+			var documentId = idField.value;
+			var certFile = certField.files[0];
+			var keyFile = keyField.files[0];
+			var password = passwordField.value;
+
+			// show spinner
+			var l = Ladda.create($("#sign-form button")[0]);
+	 		l.start();
+
+	 		SignDocument("tender", documentId, certFile, keyFile, password, function() {
+	 			l.stop();
+
+	 			alert("Signed successfully");
+
+	 		}, function(e) {
+	 			l.stop();
+
+	 			if (e.message)
+	 				e = e.message;
+	 			else
+	 				e = e.toString();
+
+	 			alert("Signing error: " + e);
+	 		});
+		}
+
+		function DoVerify(e) {
+			e.preventDefault();
+
+			var idField = this["VerifyID"];
+
+			if (!idField.value) {
+				alert("No ID provided");
+				return;
+			}
+
+			var documentId = idField.value;
+
+			// show spinner
+			var l = Ladda.create($("#verify-form button")[0]);
+	 		l.start();
+	 		
+	 		VerifyDocument("tender", documentId, function(info) {
+	 			l.stop();
+
+	 			if (info === false) {
+	 				alert("Signature is invalid (document changed)");
+	 			} else if (!info) {
+	 				alert("Document is not signed");
+	 			} else {
+	 				var owner = info.GetOwnerInfo();
+	 				var timestamp = info.GetTimeInfo();
+
+	 				alert("Signature is valid!\n\nSigner: " + owner.GetSubjCN() + 
+	 					  "\nIssuer: " + owner.GetIssuerCN() + "\nTimestamp: " + timestamp.GetTime());
+	 			}
+
+	 		}, function(e) {
+	 			l.stop();
+
+	 			if (e.message)
+	 				e = e.message;
+	 			else
+	 				e = e.toString();
+
+	 			alert("Signature verification error: " + e);
+	 		});
+		}
+
+		</script>
+	</body>
+</html>

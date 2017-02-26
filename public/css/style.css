@@ -1,0 +1,472 @@
+.progress__bar{border: 1px solid white;display:block;height:100%;background: #5cb85c;}.progress__label{float:right;padding:0 2px;font-size:12px;color:#fff}.progress--radius{border-radius:2px}.progress--round{border-radius:1000px}.progress--radius .progress__bar,.progress--round .progress__bar{border-radius:inherit}.progress--small{height:15px}.progress--large{height:10px}.progress--success .progress__bar{background-color:#43ac6a}.progress--alert .progress__bar{background-color:#f04124}.progress--striped .progress__bar{-webkit-background-size:40px 40px;background-size:40px 40px}
+
+html,
+body {
+  height: 100%;
+  background: #ffffff;
+}
+body {
+  background: #ffffff;
+}
+label {
+  font-weight: normal;
+}
+.title {
+  text-align: center;
+  font-family: 'Lato';
+  font-size: 96px;
+  font-weight: 100;
+}
+.sub-legend legend {
+  font-size: 12px;
+}
+.our_progress{
+  display: inline-block;
+    width: 200px;
+    height: 30px;
+    overflow: hidden;
+    background-color: #ffffff;
+    border: 1px solid #4cae4c;
+    margin-bottom: 0px;
+}
+.aside-nav {
+
+  font-size: 11px;
+}
+.aside-nav li a {
+  color: #666666;
+}
+.aside-nav li a:hover {
+  text-decoration: none;
+  color: #212121;
+}
+.files .file {
+  margin-bottom: 10px;
+}
+.files .file input[type='file'] {
+  cursor: pointer;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+.files .file .file-description {
+  z-index: 100;
+  position: absolute;
+  width: 95%;
+  line-height: 37px;
+}
+.file-description{
+      text-align: center;
+}
+
+.files .file.inline {
+    display: inline-block;
+    width: 100%;
+}
+
+.confidentialLabel {
+    line-height: 37px;
+    margin-bottom: 0;
+}
+.form-container {
+  padding: 36px 3em;
+  background-color: #ffffff;
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.form-container a {
+  text-decoration: underline;
+}
+.bg {
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.43) url(/i/under1.jpg) no-repeat center top;
+  background-size: 100% auto;
+}
+.header-form-container {
+  margin-top: 15%;
+}
+.header-form {
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  padding: 15px 0;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.add-organization,
+.add-tender {
+  margin-bottom: 20px;
+}
+.add-organization .navigation-bar a,
+.add-tender .navigation-bar a {
+  margin-left: 15px;
+}
+.delivery-address {
+  transition: all .6s;
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+.delivery-address.show-address {
+  height: 245px;
+  opacity: 1;
+  visibility: visible;
+}
+.large-header {
+  font-size: 22px;
+  display: block;
+  line-height: 1.25em;
+  font-weight: normal;
+  margin: 0 0 10px;
+}
+/*sticky footer
+http://stackoverflow.com/questions/42294/how-do-you-get-the-footer-to-stay-at-the-bottom-of-a-web-page?rq=1
+это копипаск касательно футера
+*/
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+footer {
+  border-top: 1px solid #eee;
+  text-align: center;
+  background: #333;
+  color: white;
+}
+.footer, .push {
+  height: 110px;
+  clear: both;/* .push must be the same height as .footer */
+}
+.wrapper {
+   min-height: 100%;
+   height: auto !important;
+   height: 100%;
+   margin: 0 auto -110px; /* the bottom margin is the negative value of the footer's height */
+ }
+
+/*sticky foter end*/
+.bs-callout {
+  padding: 20px;
+  margin: 10px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+.bs-callout code {
+  border-radius: 3px;
+}
+.bs-callout + .bs-callout {
+  margin-top: -5px;
+}
+.bs-callout-default {
+  border-left-color: #777;
+}
+.bs-callout-default h4 {
+  color: #777;
+}
+.bs-callout-primary {
+  border-left-color: #428bca;
+}
+.bs-callout-primary h4 {
+  color: #428bca;
+}
+.bs-callout-success {
+  border-left-color: #5cb85c;
+}
+.bs-callout-success h4 {
+  color: #5cb85c;
+}
+.bs-callout-danger {
+  border-left-color: #d9534f;
+}
+.bs-callout-danger h4 {
+  color: #d9534f;
+}
+.bs-callout-warning {
+  border-left-color: #f0ad4e;
+}
+.bs-callout-warning h4 {
+  color: #f0ad4e;
+}
+.bs-callout-info {
+  border-left-color: #5bc0de;
+}
+.bs-callout-info h4 {
+  color: #5bc0de;
+}
+.about-organization {
+  margin-bottom: 50px;
+}
+.about-organization .row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.about-organization .row:nth-child(2n+1) {
+  background: #f5f5f5;
+}
+.about-organization .row :first-child {
+  font-weight: bolder;
+}
+.about-organization .row :first-child:after {
+  content: ':';
+}
+.ui-autocomplete {
+  max-height: 400px;
+  max-width: 30%;
+  overflow-y: auto;
+  overflow-x: auto;
+  width: 529px;
+}
+.answer {
+  display: none;
+}
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+}
+.fileUpload input.upload {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.section-close a{
+  float: right;
+}
+
+
+.add-optin{
+  margin-top: 15px;
+  margin-right: 15px;
+}
+.add-item-optin{
+  margin-top: 15px;
+  margin-right: 15px;
+}
+.del-optin{
+  margin-right: 15px;
+}
+.del-future{
+  width: 25px;
+  height: 25px;
+  color: #e1e1e1;
+  font-size:30px;
+}
+.del-future:hover {
+  color: black;
+  text-decoration: none;
+  cursor:pointer;
+}
+
+.lot-number {
+  font-size: 24px
+}
+.hidde{
+  display: none;
+}
+.close-planing-items{
+  margin-left: 830px;
+  margin-bottom: 30px;
+}
+.delete-planning{
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  color: #fff;
+  background-color: #ff1103;
+  font-weight: 400;
+  border-color: #ff1103;
+  width: 50px;
+  height: 50px;
+}
+.del-plan-items{
+  margin-left: 860px;
+  margin-bottom: 25px;
+}
+.crt-plan{
+  margin-bottom: 25px;
+}
+
+
+.glyphicon-refresh-animate {
+  -animation: spin .7s infinite linear;
+  -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+  from { -webkit-transform: rotate(0deg);}
+  to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+  from { transform: scale(1) rotate(0deg);}
+  to { transform: scale(1) rotate(360deg);}
+}
+
+.tender-summary {
+  width: 100%;
+}
+.tender-summary td {
+  width: 50%;
+  padding: 8px 0;
+}
+.clean-table {
+  width: 100%;
+  margin-bottom: 20px;
+
+}
+.clean-table th {
+  color: #999;
+  padding-left: 20px;
+  font-weight: normal;
+  vertical-align: top;
+}
+.clean-table th, .clean-table td {
+  padding: 5px 5px;
+
+}
+.half th, .half td{
+  width: 50%;
+}
+.desc {
+  color: #999;
+}
+.nav-tabs {
+  border-bottom: none;
+  margin-bottom: 10px;
+}
+.nav-tabs>li>a {
+  border-bottom: dashed 1px;
+}
+.nav-tabs>li>a, .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  border: none;
+
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{
+  background-color: rgb(238, 238, 238);
+}
+
+h4 {
+  font-weight: bold;
+}
+
+
+.label-as-badge {
+  border-radius: 1em;
+}
+.table-notes{
+  font-size: 12px;
+}
+
+#modal-confirm-bid .modal-body {
+    text-align: left;
+}
+
+.table > tbody > tr.tender-document-old > td {
+  border: none;
+  padding-top: 0;
+}
+
+.tender-document-old,
+.tender-document-old a,
+.tender-document-old a:hover,
+.tender-document-old a:active,
+.tender-document-old a:focus {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+input.bid_checkbox {
+    margin-top: 20px;
+}
+
+.bid_qualify_field {
+  display: none;
+}
+.text_label{
+  font-size: 14px;
+}
+
+.helper:hover::after{
+  content: attr(title-data);
+  color: #0d1318;
+  position: absolute; /* Абсолютное позиционирование */
+  margin-top: 25px;
+  z-index: 1; /* Отображаем подсказку поверх других элементов */
+  background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */
+  font-family: Arial, sans-serif; /* Гарнитура шрифта */
+  font-size: 12px; /* Размер текста подсказки */
+  padding: 5px 10px; /* Поля */
+  border: 1px solid #333; /* Параметры рамки */
+  border-radius: 5px 5px 5px 5px;
+}
+
+.rower{
+  height: 500px;
+}
+.text-field{
+  width: 300px;
+  margin: 0 auto;
+}
+.but-field{
+  width: 100px;
+  margin: 0 auto;
+  margin-top: 6px;
+}
+.error-box{
+  font-size: 13px;
+}
+.fl-lef{
+  float: left;
+      max-width: 150px;
+      font-weight: bold;
+}
+
+.tooltips {
+    position: relative;
+    display: inline-block;
+    height: 36px;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: left;
+}
+
+.tooltips .tooltiptexts {
+    visibility: hidden;
+    width: initial;
+    background-color: rgba(0, 0, 0, 0.78);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 2px 5px;
+    
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: 12px;
+    line-height: 25px;
+}
+
+.tooltips:hover .tooltiptexts {
+    visibility: visible;
+}

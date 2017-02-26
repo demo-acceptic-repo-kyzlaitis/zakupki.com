@@ -1,0 +1,79 @@
+version: '2'
+services:
+
+  application:
+      image: 009766250278.dkr.ecr.us-west-2.amazonaws.com/zakupki_application:latest
+      environment:
+          - DEBUG=1
+      volumes:
+          - .:/var/www/zakupki.com
+      tty: true
+
+  db-mysql:
+      image: percona:5.7
+      restart: always
+      ports:
+          - 3306:3306
+      volumes:
+          - ./docker/db-mysql/lib/log:/var/log/mysql
+      environment:
+              MYSQL_DATABASE: ts_zakupki
+              MYSQL_USER: ts_zakupki
+              MYSQL_PASSWORD: ts_zakupki
+              MYSQL_ROOT_PASSWORD: root
+
+  php:
+      image: 009766250278.dkr.ecr.us-west-2.amazonaws.com/zakupki_php:latest
+      hostname: docker-backend
+      working_dir: /var/www/zakupki.com
+      links:
+          - db-mysql
+          - redis
+          - elasticsearch
+          - queue
+      volumes_from:
+          - application
+      command: ./docker/php-fpm/start.sh
+
+  nginx:
+      image: 009766250278.dkr.ecr.us-west-2.amazonaws.com/zakupki_nginx:latest
+      ports:
+          - 80:80
+      links:
+          - php
+      volumes_from:
+          - application
+      volumes:
+          - ./docker/nginx/log:/var/log/nginx
+          - ./docker/nginx/etc:/etc/nginx
+          - ./docker/nginx/etc/hosts:/etc/hosts
+
+  elasticsearch:
+      image: elasticsearch:2.3.4
+
+  redis:
+      image: redis:latest
+
+  queue:
+      image: rabbitmq:latest
+
+  seleniumhub:
+    image: selenium/hub
+    ports:
+      - 4444:4444
+
+  firefoxnode:
+    image: selenium/node-firefox
+    ports:
+      - 5900
+    links:
+      - seleniumhub:hub
+      - nginx
+
+  chromenode:
+    image: selenium/node-chrome
+    ports:
+      - 5900
+    links:
+      - seleniumhub:hub
+      - nginx

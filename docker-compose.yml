@@ -1,0 +1,73 @@
+version: '2'
+services:
+
+  application:
+      image: 513518751793.dkr.ecr.eu-central-1.amazonaws.com/zakupki_application:latest
+      environment:
+          - DEBUG=1
+      volumes:
+          - .:/var/www/zakupki.com.ua
+      tty: true
+
+  db-mysql:
+      image: percona:5.5
+      restart: always
+      ports:
+          - 3306:3306
+      volumes:
+          - ./docker/db-mysql/lib/log:/var/log/mysql
+      environment:
+              MYSQL_DATABASE: ts_zakupki
+              MYSQL_USER: ts_zakupki
+              MYSQL_PASSWORD: ts_zakupki
+              MYSQL_ROOT_PASSWORD: root
+
+  php:
+      image: 513518751793.dkr.ecr.eu-central-1.amazonaws.com/zakupki_php:latest
+      #build: docker/php7-fpm
+      hostname: docker-backend
+      working_dir: /var/www/zakupki.com.ua
+      links:
+          - db-mysql
+          - sphinx
+          - redis
+        #  - supervisor
+      volumes_from:
+          - application
+      volumes:
+        - ./docker/php-fpm/config/:/etc/supervisor/conf.d/
+      command: ./docker/php-fpm/supervisor.sh
+
+  nginx:
+      image: 513518751793.dkr.ecr.eu-central-1.amazonaws.com/zakupki_nginx:latest
+      ports:
+          - 80:80
+      links:
+          - php
+      volumes_from:
+          - application
+      volumes:
+          - ./docker/nginx/log:/var/log/nginx
+          - ./docker/nginx/etc:/etc/nginx
+          - ./docker/nginx/etc/hosts:/etc/hosts
+
+#  supervisor:
+ #     image: 513518751793.dkr.ecr.eu-central-1.amazonaws.com/zakupki_supervisor:latest
+
+  redis:
+      image: redis:latest
+      ports:
+        - 6379:6379
+
+  sphinx:
+      image: 513518751793.dkr.ecr.eu-central-1.amazonaws.com/zakupki_sphinx:latest
+      restart: always
+      ports:
+          - 9312:9312
+      links:
+        - db-mysql
+      volumes:
+          - ./docker/sphinx:/etc/sphinxsearch/
+          - ./docker/sphinx/log:/var/log/sphinx/
+      command:
+        - /etc/sphinxsearch/indexandsearch.sh

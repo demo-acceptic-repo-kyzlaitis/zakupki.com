@@ -1,0 +1,25 @@
+index index.php;
+
+location @rewrite {
+        rewrite ^(.*)$ /index.php?_url=$1;
+}
+
+location ~ \.php {
+    include fastcgi_params;
+    fastcgi_split_path_info       ^(.+\.php)(.*)$;
+    fastcgi_param PATH_INFO       $fastcgi_path_info;
+    fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+    fastcgi_read_timeout 1m;
+
+    set $upstream 'php-upstream';
+
+    if ($http_cookie ~ "php=5" ) {
+        set $upstream 'php-upstream';
+    }
+    #if ($http_cookie ~ "php=7" ) {
+    #    set $upstream 'php-upstream7';
+    #}
+    fastcgi_pass   $upstream;
+}
